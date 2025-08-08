@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAppContext } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import { 
   LayoutDashboard, 
   Users, 
@@ -7,7 +8,9 @@ import {
   DollarSign, 
   FileText,
   Menu,
-  X
+  X,
+  LogOut,
+  User
 } from 'lucide-react';
 
 interface LayoutProps {
@@ -16,6 +19,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { state, dispatch } = useAppContext();
+  const { state: authState, logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
   const navigation = [
@@ -31,6 +35,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     setSidebarOpen(false);
   };
 
+  const handleLogout = () => {
+    if (window.confirm('Are you sure you want to logout?')) {
+      logout();
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Mobile menu button */}
@@ -53,6 +62,22 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <h1 className="text-xl font-bold text-white">Hijab Umar</h1>
           </div>
 
+          {/* User Info */}
+          <div className="p-4 border-b border-gray-200 bg-gray-50">
+            <div className="flex items-center space-x-3">
+              <div className="bg-blue-100 p-2 rounded-full">
+                <User size={16} className="text-blue-600" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-900 truncate">
+                  {authState.user?.name}
+                </p>
+                <p className="text-xs text-gray-500 capitalize">
+                  {authState.user?.role}
+                </p>
+              </div>
+            </div>
+          </div>
           {/* Navigation */}
           <nav className="flex-1 p-4 space-y-2">
             {navigation.map((item) => {
@@ -76,11 +101,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             })}
           </nav>
 
-          {/* Footer */}
+          {/* Logout Button */}
           <div className="p-4 border-t border-gray-200">
-            <div className="text-sm text-gray-500 text-center">
-              © 2025 Hijab Umar System
-            </div>
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center px-4 py-3 text-left rounded-lg text-gray-600 hover:bg-red-50 hover:text-red-600 transition-all duration-200"
+            >
+              <LogOut size={20} className="mr-3" />
+              <span className="font-medium">Logout</span>
+            </button>
           </div>
         </div>
       </div>
