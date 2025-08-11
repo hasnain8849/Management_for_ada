@@ -68,6 +68,7 @@ const Reports: React.FC = () => {
   const exportReport = (type: string) => {
     let csvContent = '';
     let filename = '';
+    const timestamp = new Date().toISOString().split('T')[0];
 
     switch (type) {
       case 'attendance':
@@ -83,7 +84,7 @@ const Reports: React.FC = () => {
             emp.attendanceRate.toFixed(1)
           ])
         ].map(row => row.join(',')).join('\n');
-        filename = `attendance-report-${selectedMonth}.csv`;
+        filename = `hijab-umar-attendance-report-${selectedMonth}-${timestamp}.csv`;
         break;
 
       case 'wages':
@@ -98,7 +99,7 @@ const Reports: React.FC = () => {
             emp.monthlyPay.toFixed(2)
           ])
         ].map(row => row.join(',')).join('\n');
-        filename = `wage-report-${selectedMonth}.csv`;
+        filename = `hijab-umar-wage-report-${selectedMonth}-${timestamp}.csv`;
         break;
 
       case 'summary':
@@ -111,9 +112,13 @@ const Reports: React.FC = () => {
           ['Total Monthly Payroll (PKR)', summaryStats.totalMonthlyPayroll.toFixed(2)],
           ['Total Hours Worked', summaryStats.totalHoursWorked.toFixed(1)]
         ].map(row => row.join(',')).join('\n');
-        filename = `summary-report-${selectedMonth}.csv`;
+        filename = `hijab-umar-summary-report-${selectedMonth}-${timestamp}.csv`;
         break;
     }
+
+    // Add UTF-8 BOM for proper Excel compatibility
+    const BOM = '\uFEFF';
+    csvContent = BOM + csvContent;
 
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);

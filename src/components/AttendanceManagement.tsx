@@ -14,7 +14,20 @@ const AttendanceManagement: React.FC = () => {
     !todayRecords.some(record => record.employeeId === employee.id)
   );
 
+  // Prevent duplicate attendance entries
+  const hasAttendanceRecord = (employeeId: string, date: string) => {
+    return state.attendanceRecords.some(record => 
+      record.employeeId === employeeId && record.date === date
+    );
+  };
+
   const handleQuickClockIn = (employeeId: string) => {
+    // Check for existing record
+    if (hasAttendanceRecord(employeeId, selectedDate)) {
+      alert('Attendance already recorded for this employee on selected date.');
+      return;
+    }
+
     const now = new Date();
     const clockInTime = now.toTimeString().slice(0, 5);
     
@@ -53,6 +66,12 @@ const AttendanceManagement: React.FC = () => {
   };
 
   const handleManualEntry = (employeeId: string, clockIn: string, clockOut: string, notes: string) => {
+    // Check for existing record
+    if (hasAttendanceRecord(employeeId, selectedDate)) {
+      alert('Attendance already recorded for this employee on selected date.');
+      return;
+    }
+
     const clockInTime = new Date(`2000-01-01T${clockIn}:00`);
     const clockOutTime = new Date(`2000-01-01T${clockOut}:00`);
     const hoursWorked = (clockOutTime.getTime() - clockInTime.getTime()) / (1000 * 60 * 60);
@@ -73,6 +92,12 @@ const AttendanceManagement: React.FC = () => {
   };
 
   const markAbsent = (employeeId: string) => {
+    // Check for existing record
+    if (hasAttendanceRecord(employeeId, selectedDate)) {
+      alert('Attendance already recorded for this employee on selected date.');
+      return;
+    }
+
     const newRecord: AttendanceRecord = {
       id: Date.now().toString(),
       employeeId,
@@ -329,10 +354,12 @@ const AttendanceManagement: React.FC = () => {
                   <select
                     name="employeeId"
                     required
+                    value={selectedEmployeeId}
+                    onChange={(e) => setSelectedEmployeeId(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value="">Select Employee</option>
-                    {employeesWithoutRecord.map((employee) => (
+                    {state.employees.filter(emp => !hasAttendanceRecord(emp.id, selectedDate)).map((employee) => (
                       <option key={employee.id} value={employee.id}>
                         {employee.name} - {employee.position}
                       </option>

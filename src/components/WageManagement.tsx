@@ -101,14 +101,18 @@ const WageManagement: React.FC = () => {
   const totalPayroll = filteredWageRecords.reduce((total, record) => total + record.netPay, 0);
 
   const exportWageData = () => {
+    const timestamp = new Date().toISOString().split('T')[0];
     const csvContent = [
-      ['Employee', 'Period', 'Total Hours', 'Gross Pay', 'Deductions', 'Net Pay'],
+      ['Employee', 'Type', 'Position', 'Period', 'Total Hours', 'Hourly Rate (PKR)', 'Gross Pay (PKR)', 'Deductions (PKR)', 'Net Pay (PKR)'],
       ...filteredWageRecords.map(record => {
         const employee = state.employees.find(emp => emp.id === record.employeeId);
         return [
           employee?.name || 'Unknown',
+          employee?.type || 'Unknown',
+          employee?.position || 'Unknown',
           record.period,
           record.totalHours.toString(),
+          employee?.hourlyRate.toFixed(2) || '0.00',
           record.grossPay.toFixed(2),
           record.deductions.toFixed(2),
           record.netPay.toFixed(2)
@@ -116,11 +120,14 @@ const WageManagement: React.FC = () => {
       })
     ].map(row => row.join(',')).join('\n');
 
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+    // Add UTF-8 BOM for proper Excel compatibility
+    const BOM = '\uFEFF';
+    const finalContent = BOM + csvContent;
+    const blob = new Blob([finalContent], { type: 'text/csv;charset=utf-8;' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `wage-records-${selectedPeriod}-${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `hijab-umar-wage-records-${selectedPeriod}-${timestamp}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
   };
