@@ -7,7 +7,11 @@ import {
   DollarSign, 
   Clock, 
   TrendingUp,
-  Calendar
+  Calendar,
+  MapPin,
+  Truck,
+  Package,
+  AlertTriangle
 } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
@@ -44,18 +48,32 @@ const Dashboard: React.FC = () => {
       textColor: 'text-yellow-600'
     },
     {
-      title: 'Avg Hours/Day',
-      value: stats.averageHoursPerDay.toFixed(1),
-      icon: Clock,
+      title: 'Active Locations',
+      value: stats.totalLocations,
+      icon: MapPin,
       color: 'bg-indigo-500',
       textColor: 'text-indigo-600'
     },
     {
-      title: 'Attendance Rate',
-      value: `${stats.attendanceRate.toFixed(1)}%`,
-      icon: TrendingUp,
+      title: 'Active Vendors',
+      value: stats.totalVendors,
+      icon: Truck,
       color: 'bg-pink-500',
       textColor: 'text-pink-600'
+    },
+    {
+      title: 'Stock Value',
+      value: formatPKR(stats.totalStockValue),
+      icon: Package,
+      color: 'bg-teal-500',
+      textColor: 'text-teal-600'
+    },
+    {
+      title: 'Low Stock Items',
+      value: stats.lowStockItems,
+      icon: AlertTriangle,
+      color: 'bg-red-500',
+      textColor: 'text-red-600'
     }
   ];
 

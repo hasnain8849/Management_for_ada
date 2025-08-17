@@ -7,6 +7,10 @@ import {
   Clock, 
   DollarSign, 
   FileText,
+  MapPin,
+  Truck,
+  Package,
+  BarChart3,
   Menu,
   X,
   LogOut,
@@ -27,6 +31,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { id: 'employees', name: 'Employees', icon: Users },
     { id: 'attendance', name: 'Attendance', icon: Clock },
     { id: 'wages', name: 'Wages', icon: DollarSign },
+    { id: 'locations', name: 'Locations', icon: MapPin },
+    { id: 'vendors', name: 'Vendors', icon: Truck },
+    { id: 'inventory', name: 'Inventory', icon: Package },
+    { id: 'analytics', name: 'Analytics', icon: BarChart3 },
     { id: 'reports', name: 'Reports', icon: FileText },
   ];
 
