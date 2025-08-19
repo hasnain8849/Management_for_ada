@@ -65,7 +65,7 @@ const initialState: AppState = {
   stockTransfers: [],
   stockReceiving: [],
   stockReturns: [],
-  payrollRecords: []
+  payrollRecords: [],
   collections: [],
   stockMovements: [],
   attendanceRecords: []
