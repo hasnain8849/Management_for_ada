@@ -67,7 +67,7 @@ const initialState: AppState = {
   stockReturns: [],
   payrollRecords: [],
   collections: [],
-  stockMovements: [],
+  stockMovements: []
 };
 
 function appReducer(state: AppState, action: AppAction): AppState {
