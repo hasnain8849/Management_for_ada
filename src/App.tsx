@@ -1,6 +1,5 @@
 import React from 'react';
-import { AuthProvider, useAuth } from './context/AuthContext'; 
-import { AppProvider, useAppContext } from './context/AppContext';
+import { AuthProvider, useAuth } from './context/AuthContext'; import { AppProvider, useAppContext } from'./context/AppContext';
 import LoginPage from './components/LoginPage';
 import Layout from './components/Layout';
 import Dashboard from './components/Dashboard';
