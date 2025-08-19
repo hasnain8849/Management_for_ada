@@ -56,6 +56,7 @@ type AppAction =
 
 const initialState: AppState = {
   employees: [],
+  attendanceRecords: [],
   wageRecords: [],
   currentView: 'dashboard',
   locations: [],
@@ -67,7 +68,6 @@ const initialState: AppState = {
   payrollRecords: [],
   collections: [],
   stockMovements: [],
-  attendanceRecords: []
 };
 
 function appReducer(state: AppState, action: AppAction): AppState {
