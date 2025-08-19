@@ -56,7 +56,6 @@ type AppAction =
 
 const initialState: AppState = {
   employees: [],
-  attendanceRecords: [],
   wageRecords: [],
   currentView: 'dashboard',
   locations: [],
