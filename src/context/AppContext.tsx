@@ -52,7 +52,7 @@ type AppAction =
   | { type: 'SET_STOCK_MOVEMENTS'; payload: StockMovement[] }
   | { type: 'ADD_STOCK_MOVEMENT'; payload: StockMovement }
   | { type: 'SET_ATTENDANCE_RECORDS'; payload: AttendanceRecord[] }
-  | { type: 'ADD_ATTENDANCE_RECORD'; payload: AttendanceRecord }
+  | { type: 'ADD_ATTENDANCE_RECORD'; payload: AttendanceRecord };
 
 const initialState: AppState = {
   employees: [],
