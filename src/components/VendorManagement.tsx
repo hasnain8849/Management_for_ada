@@ -13,7 +13,7 @@ const VendorManagement: React.FC = () => {
     email: '',
     phone: '',
     address: '',
-    status: 'active' as 'active' | 'inactive',
+    status: 'active' as 'active' | 'inactive',;
     // Enhanced vendor fields
     vendorName: '',
     cnicId: '',
