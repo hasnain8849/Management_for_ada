@@ -28,6 +28,11 @@ const InventoryManagement: React.FC = () => {
     vendorId: '',
     category: '',
     description: ''
+    // Enhanced stock fields
+    receivedBy: '',
+    supplierName: '',
+    remarks: '',
+    outSourceStock: ''
   });
 
   const filteredItems = state.stockItems.filter(item => {
@@ -566,16 +571,49 @@ const InventoryManagement: React.FC = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Description (Optional)
+                    Out-Source Stock
                   </label>
                   <textarea
-                    value={formData.description}
-                    onChange={(e) => setFormData({...formData, description: e.target.value})}
+                    value={formData.remarks}
+                    onChange={(e) => setFormData({...formData, remarks: e.target.value, description: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    rows={2}
-                  />
+                    value={formData.outSourceStock}
+                    placeholder="Any additional notes or remarks"
+                    placeholder="External/vendor stock"
+                    onChange={(e) => setFormData({...formData, outSourceStock: e.target.value})}
                 </div>
 
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Received By (Employee)
+                  </label>
+                  <select
+                    required
+                    value={formData.receivedBy}
+                    onChange={(e) => setFormData({...formData, receivedBy: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="">Select Employee</option>
+                    {state.employees.map(employee => (
+                      <option key={employee.id} value={employee.name}>
+                        {employee.name} ({employee.systemEmployeeId || employee.employeeId})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Supplier Name (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.supplierName}
+                    onChange={(e) => setFormData({...formData, supplierName: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Supplier name if different from vendor"
+                  />
+                </div>
                 <div className="flex justify-end space-x-3 pt-4">
                   <button
                     type="button"
@@ -601,3 +639,4 @@ const InventoryManagement: React.FC = () => {
 };
 
 export default InventoryManagement;
+                    Remarks (Optional)

@@ -20,6 +20,17 @@ export interface Employee {
   status: 'active' | 'inactive';
   locationId: string;
   payrollType: 'daily' | 'weekly' | 'monthly';
+  // New comprehensive employee fields
+  fullName: string;
+  phoneNumber: string;
+  monthlySalary: number;
+  dailyWages: number;
+  weeklyWages: number;
+  cnicId: string;
+  systemEmployeeId: string;
+  fullAddress: string;
+  bankAccountNumber: string;
+  assignedLocation: string;
 }
 
 export interface AttendanceRecord {
@@ -86,6 +97,13 @@ export interface Vendor {
   onTimeDeliveries: number;
   totalReturns: number;
   joinDate: string;
+  // Enhanced vendor fields
+  vendorName: string;
+  cnicId: string;
+  contactNumber: string;
+  fullAddress: string;
+  bankAccountNumber: string;
+  dateJoined: string;
 }
 
 export interface StockItem {
@@ -108,6 +126,11 @@ export interface StockItem {
   category: string;
   description?: string;
   images?: string[];
+  // Enhanced stock fields
+  receivedBy: string;
+  supplierName?: string;
+  remarks?: string;
+  outSourceStock: number;
 }
 
 export interface StockTransfer {
@@ -150,6 +173,13 @@ export interface StockReturn {
   status: 'pending' | 'approved' | 'completed';
   notes?: string;
   returnedBy: string;
+  // Enhanced return fields
+  itemName: string;
+  quantityReturned: number;
+  reasonForReturn: string;
+  returnBy: string;
+  returnTo: string;
+  remarks?: string;
 }
 
 export interface PayrollRecord {
@@ -164,4 +194,40 @@ export interface PayrollRecord {
   netPay: number;
   payDate: string;
   status: 'pending' | 'paid' | 'cancelled';
+}
+
+// New comprehensive types for enhanced system
+export interface Collection {
+  id: string;
+  name: string;
+  description?: string;
+  isActive: boolean;
+  createdDate: string;
+}
+
+export interface AttendanceRecord {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  systemEmployeeId: string;
+  locationId: string;
+  date: string;
+  timeIn?: string;
+  timeOut?: string;
+  status: 'present' | 'absent' | 'late';
+  hoursWorked: number;
+  notes?: string;
+}
+
+export interface StockMovement {
+  id: string;
+  type: 'received' | 'transferred' | 'returned';
+  itemId: string;
+  fromLocationId?: string;
+  toLocationId: string;
+  quantity: number;
+  date: string;
+  employeeId: string;
+  notes?: string;
+  status: 'pending' | 'completed' | 'cancelled';
 }

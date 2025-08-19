@@ -15,6 +15,10 @@ interface AppState {
   stockReceiving: StockReceiving[];
   stockReturns: StockReturn[];
   payrollRecords: PayrollRecord[];
+  // New state for enhanced features
+  collections: Collection[];
+  stockMovements: StockMovement[];
+  attendanceRecords: AttendanceRecord[];
 }
 
 type AppAction = 
@@ -42,6 +46,13 @@ type AppAction =
   | { type: 'ADD_STOCK_TRANSFER'; payload: StockTransfer }
   | { type: 'SET_PAYROLL'; payload: PayrollRecord[] }
   | { type: 'ADD_PAYROLL'; payload: PayrollRecord };
+  // New actions for enhanced features
+  | { type: 'SET_COLLECTIONS'; payload: Collection[] }
+  | { type: 'ADD_COLLECTION'; payload: Collection }
+  | { type: 'SET_STOCK_MOVEMENTS'; payload: StockMovement[] }
+  | { type: 'ADD_STOCK_MOVEMENT'; payload: StockMovement }
+  | { type: 'SET_ATTENDANCE_RECORDS'; payload: AttendanceRecord[] }
+  | { type: 'ADD_ATTENDANCE_RECORD'; payload: AttendanceRecord };
 
 const initialState: AppState = {
   employees: [],
@@ -55,6 +66,9 @@ const initialState: AppState = {
   stockReceiving: [],
   stockReturns: [],
   payrollRecords: []
+  collections: [],
+  stockMovements: [],
+  attendanceRecords: []
 };
 
 function appReducer(state: AppState, action: AppAction): AppState {
@@ -134,6 +148,19 @@ function appReducer(state: AppState, action: AppAction): AppState {
       return { ...state, payrollRecords: action.payload };
     case 'ADD_PAYROLL':
       return { ...state, payrollRecords: [...state.payrollRecords, action.payload] };
+    // New cases for enhanced features
+    case 'SET_COLLECTIONS':
+      return { ...state, collections: action.payload };
+    case 'ADD_COLLECTION':
+      return { ...state, collections: [...state.collections, action.payload] };
+    case 'SET_STOCK_MOVEMENTS':
+      return { ...state, stockMovements: action.payload };
+    case 'ADD_STOCK_MOVEMENT':
+      return { ...state, stockMovements: [...state.stockMovements, action.payload] };
+    case 'SET_ATTENDANCE_RECORDS':
+      return { ...state, attendanceRecords: action.payload };
+    case 'ADD_ATTENDANCE_RECORD':
+      return { ...state, attendanceRecords: [...state.attendanceRecords, action.payload] };
     default:
       return state;
   }
@@ -201,6 +228,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
         { id: '005', code: '005', name: 'Online Shop', address: 'Online Platform', manager: 'Admin', phone: '', isActive: true, type: 'online' }
       ];
       dispatch({ type: 'SET_LOCATIONS', payload: defaultLocations });
+      
+      // Initialize default collections
+      const defaultCollections: Collection[] = [
+        { id: '1', name: 'Sajna Lawn', description: 'Premium lawn collection', isActive: true, createdDate: new Date().toISOString().split('T')[0] },
+        { id: '2', name: 'Parwaz', description: 'Elegant formal wear', isActive: true, createdDate: new Date().toISOString().split('T')[0] },
+        { id: '3', name: 'Noor Jehan', description: 'Traditional designs', isActive: true, createdDate: new Date().toISOString().split('T')[0] },
+        { id: '4', name: 'Raabta', description: 'Modern casual wear', isActive: true, createdDate: new Date().toISOString().split('T')[0] }
+      ];
+      dispatch({ type: 'SET_COLLECTIONS', payload: defaultCollections });
     }
     
     if (savedVendors) {

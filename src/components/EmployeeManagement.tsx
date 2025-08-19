@@ -19,6 +19,17 @@ const EmployeeManagement: React.FC = () => {
     department: '',
     position: '',
     hourlyRate: '',
+    // New comprehensive fields
+    fullName: '',
+    phoneNumber: '',
+    designation: '',
+    monthlySalary: '',
+    dailyWages: '',
+    weeklyWages: '',
+    cnicId: '',
+    address: '',
+    bankAccountNumber: '',
+    assignedLocation: ''
   });
 
   const filteredEmployees = state.employees.filter(employee => {
@@ -38,6 +49,16 @@ const EmployeeManagement: React.FC = () => {
       department: '',
       position: '',
       hourlyRate: '',
+      fullName: '',
+      phoneNumber: '',
+      designation: '',
+      monthlySalary: '',
+      dailyWages: '',
+      weeklyWages: '',
+      cnicId: '',
+      address: '',
+      bankAccountNumber: '',
+      assignedLocation: ''
     });
     setEditingEmployee(null);
     setShowAddForm(false);
@@ -57,6 +78,28 @@ const EmployeeManagement: React.FC = () => {
       hourlyRate: parseFloat(formData.hourlyRate),
       joinDate: editingEmployee?.joinDate || new Date().toISOString().split('T')[0],
       isActive: true,
+      // New comprehensive fields
+      fullName: formData.fullName || formData.name,
+      phoneNumber: formData.phoneNumber || formData.phone,
+      designation: formData.designation || formData.position,
+      monthlySalary: parseFloat(formData.monthlySalary) || 0,
+      dailyWages: parseFloat(formData.dailyWages) || 0,
+      weeklyWages: parseFloat(formData.weeklyWages) || 0,
+      cnicId: formData.cnicId,
+      systemEmployeeId: editingEmployee?.systemEmployeeId || `EMP-${Date.now().toString().slice(-6)}`,
+      fullAddress: formData.address,
+      bankAccountNumber: formData.bankAccountNumber,
+      assignedLocation: formData.assignedLocation,
+      // Legacy fields for compatibility
+      salary: parseFloat(formData.monthlySalary) || 0,
+      wages: parseFloat(formData.dailyWages) || 0,
+      employeeId: editingEmployee?.employeeId || `EMP-${Date.now().toString().slice(-6)}`,
+      contact: formData.phoneNumber || formData.phone,
+      address: formData.address,
+      accountNo: formData.bankAccountNumber,
+      status: 'active',
+      locationId: formData.assignedLocation,
+      payrollType: 'monthly'
     };
 
     if (editingEmployee) {
@@ -78,6 +121,16 @@ const EmployeeManagement: React.FC = () => {
       department: employee.department,
       position: employee.position,
       hourlyRate: employee.hourlyRate.toString(),
+      fullName: employee.fullName || employee.name,
+      phoneNumber: employee.phoneNumber || employee.phone,
+      designation: employee.designation || employee.position,
+      monthlySalary: employee.monthlySalary?.toString() || employee.salary?.toString() || '',
+      dailyWages: employee.dailyWages?.toString() || employee.wages?.toString() || '',
+      weeklyWages: employee.weeklyWages?.toString() || '',
+      cnicId: employee.cnicId || '',
+      address: employee.fullAddress || employee.address || '',
+      bankAccountNumber: employee.bankAccountNumber || employee.accountNo || '',
+      assignedLocation: employee.assignedLocation || employee.locationId || ''
     });
     setShowAddForm(true);
   };
@@ -227,6 +280,32 @@ const EmployeeManagement: React.FC = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={formData.phoneNumber}
+                    onChange={(e) => setFormData({...formData, phoneNumber: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    CNIC / ID Card Number
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.cnicId}
+                    onChange={(e) => setFormData({...formData, cnicId: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="12345-1234567-1"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Email
                   </label>
                   <input
@@ -238,32 +317,6 @@ const EmployeeManagement: React.FC = () => {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Phone
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Type
-                  </label>
-                  <select
-                    value={formData.type}
-                    onChange={(e) => setFormData({...formData, type: e.target.value as 'employee' | 'laborer'})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  >
-                    <option value="employee">Employee</option>
-                    <option value="laborer">Laborer</option>
-                  </select>
-                </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -280,30 +333,107 @@ const EmployeeManagement: React.FC = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Position
+                    Designation
                   </label>
                   <input
                     type="text"
                     required
-                    value={formData.position}
-                    onChange={(e) => setFormData({...formData, position: e.target.value})}
+                    value={formData.designation}
+                    onChange={(e) => setFormData({...formData, designation: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Hourly Rate (PKR)
+                    Monthly Salary (PKR)
                   </label>
                   <input
                     type="number"
                     step="0.01"
                     min="0"
                     required
-                    value={formData.hourlyRate}
-                    onChange={(e) => setFormData({...formData, hourlyRate: e.target.value})}
+                    value={formData.monthlySalary}
+                    onChange={(e) => setFormData({...formData, monthlySalary: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Enter amount in PKR"
+                    placeholder="Enter monthly salary"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Daily Wages (PKR)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    value={formData.dailyWages}
+                    onChange={(e) => setFormData({...formData, dailyWages: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Enter daily wages"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Weekly Wages (PKR)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    value={formData.weeklyWages}
+                    onChange={(e) => setFormData({...formData, weeklyWages: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Enter weekly wages"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Address
+                  </label>
+                  <textarea
+                    required
+                    value={formData.address}
+                    onChange={(e) => setFormData({...formData, address: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    rows={2}
+                    placeholder="Complete address"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Bank Account Number
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.bankAccountNumber}
+                    onChange={(e) => setFormData({...formData, bankAccountNumber: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Bank account number"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Assigned Location
+                  </label>
+                  <select
+                    required
+                    value={formData.assignedLocation}
+                    onChange={(e) => setFormData({...formData, assignedLocation: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="">Select Location</option>
+                    {state.locations.map(location => (
+                      <option key={location.id} value={location.code}>
+                        {location.code} - {location.name}
+                      </option>
+                    ))}
+                  </select>
                   />
                 </div>
 

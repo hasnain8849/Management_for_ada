@@ -14,6 +14,12 @@ const VendorManagement: React.FC = () => {
     phone: '',
     address: '',
     status: 'active' as 'active' | 'inactive'
+    // Enhanced vendor fields
+    vendorName: '',
+    cnicId: '',
+    contactNumber: '',
+    fullAddress: '',
+    bankAccountNumber: ''
   });
 
   const resetForm = () => {
@@ -24,6 +30,11 @@ const VendorManagement: React.FC = () => {
       phone: '',
       address: '',
       status: 'active'
+      vendorName: '',
+      cnicId: '',
+      contactNumber: '',
+      fullAddress: '',
+      bankAccountNumber: ''
     });
     setEditingVendor(null);
     setShowAddForm(false);
@@ -45,6 +56,13 @@ const VendorManagement: React.FC = () => {
       onTimeDeliveries: editingVendor?.onTimeDeliveries || 0,
       totalReturns: editingVendor?.totalReturns || 0,
       joinDate: editingVendor?.joinDate || new Date().toISOString().split('T')[0]
+      // Enhanced vendor fields
+      vendorName: formData.vendorName || formData.name,
+      cnicId: formData.cnicId,
+      contactNumber: formData.contactNumber || formData.phone,
+      fullAddress: formData.fullAddress || formData.address,
+      bankAccountNumber: formData.bankAccountNumber,
+      dateJoined: editingVendor?.dateJoined || new Date().toISOString().split('T')[0]
     };
 
     if (editingVendor) {
@@ -239,52 +257,40 @@ const VendorManagement: React.FC = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Contact Person Name
+                    Vendor Name
                   </label>
                   <input
                     type="text"
                     required
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    value={formData.vendorName}
+                    onChange={(e) => setFormData({...formData, vendorName: e.target.value, name: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Company Name
+                    CNIC / ID Card Number
                   </label>
                   <input
                     type="text"
                     required
-                    value={formData.company}
-                    onChange={(e) => setFormData({...formData, company: e.target.value})}
+                    value={formData.cnicId}
+                    onChange={(e) => setFormData({...formData, cnicId: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="12345-1234567-1"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Phone
+                    Contact Number
                   </label>
                   <input
                     type="tel"
                     required
-                    value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                    value={formData.contactNumber}
+                    onChange={(e) => setFormData({...formData, contactNumber: e.target.value, phone: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
@@ -295,10 +301,24 @@ const VendorManagement: React.FC = () => {
                   </label>
                   <textarea
                     required
-                    value={formData.address}
-                    onChange={(e) => setFormData({...formData, address: e.target.value})}
+                    value={formData.fullAddress}
+                    onChange={(e) => setFormData({...formData, fullAddress: e.target.value, address: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     rows={2}
+                    placeholder="Complete address"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Bank Account Number
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.bankAccountNumber}
+                    onChange={(e) => setFormData({...formData, bankAccountNumber: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Bank account number"
                   />
                 </div>
 
