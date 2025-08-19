@@ -13,17 +13,7 @@ import InventoryManagement from './components/InventoryManagement';
 import Analytics from './components/Analytics';
 import Reports from './components/Reports';
 
-function App() {
-  return (
-    <div>
-      <InventoryManagement />
-    </div>
-  );
-}
-
-export default App;
-
-
+// AppContent handles all authentication and routing logic
 const AppContent: React.FC = () => {
   const { state: authState } = useAuth();
   const { state } = useAppContext();
@@ -71,13 +61,10 @@ const AppContent: React.FC = () => {
     }
   };
 
-  return (
-    <Layout>
-      {renderCurrentView()}
-    </Layout>
-  );
+  return <Layout>{renderCurrentView()}</Layout>;
 };
 
+// Main App wraps everything with providers
 function App() {
   return (
     <AuthProvider>
