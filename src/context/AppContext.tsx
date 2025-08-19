@@ -68,7 +68,7 @@ const initialState: AppState = {
   payrollRecords: [],
   collections: [],
   stockMovements: [],
-  attendanceRecords: []
+  attendanceRecords: [],
 };
 
 function appReducer(state: AppState, action: AppAction): AppState {
