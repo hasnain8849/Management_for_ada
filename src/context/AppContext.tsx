@@ -45,7 +45,7 @@ type AppAction =
   | { type: 'SET_STOCK_TRANSFERS'; payload: StockTransfer[] }
   | { type: 'ADD_STOCK_TRANSFER'; payload: StockTransfer }
   | { type: 'SET_PAYROLL'; payload: PayrollRecord[] }
-  | { type: 'ADD_PAYROLL'; payload: PayrollRecord };
+  | { type: 'ADD_PAYROLL'; payload: PayrollRecord }
   // New actions for enhanced features
   | { type: 'SET_COLLECTIONS'; payload: Collection[] }
   | { type: 'ADD_COLLECTION'; payload: Collection }
