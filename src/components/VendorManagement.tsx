@@ -29,7 +29,7 @@ const VendorManagement: React.FC = () => {
       email: '',
       phone: '',
       address: '',
-      status: 'active', // Added comma here
+      status: 'active'
       vendorName: '',
       cnicId: '',
       contactNumber: '',
@@ -55,7 +55,7 @@ const VendorManagement: React.FC = () => {
       totalDeliveries: editingVendor?.totalDeliveries || 0,
       onTimeDeliveries: editingVendor?.onTimeDeliveries || 0,
       totalReturns: editingVendor?.totalReturns || 0,
-      joinDate: editingVendor?.joinDate || new Date().toISOString().split('T')[0], // Added comma here
+      joinDate: editingVendor?.joinDate || new Date().toISOString().split('T')[0]
       // Enhanced vendor fields
       vendorName: formData.vendorName || formData.name,
       cnicId: formData.cnicId,
@@ -82,12 +82,7 @@ const VendorManagement: React.FC = () => {
       email: vendor.email,
       phone: vendor.phone,
       address: vendor.address,
-      status: vendor.status,
-      vendorName: vendor.vendorName || vendor.name,
-      cnicId: vendor.cnicId || '',
-      contactNumber: vendor.contactNumber || vendor.phone,
-      fullAddress: vendor.fullAddress || vendor.address,
-      bankAccountNumber: vendor.bankAccountNumber || ''
+      status: vendor.status
     });
     setShowAddForm(true);
   };
