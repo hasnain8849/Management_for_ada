@@ -1,18 +1,17 @@
-import React, { useState } from "react";
+// /src/components/InventoryManagement.tsx
 
-const InventoryManagement: React.FC = () => {
-  const [items, setItems] = useState<string[]>(["Shirt", "Trousers", "Shoes"]);
+const errorData = {
+  code: "rate-limited",
+  message: "You have hit the rate limit. Please upgrade to keep chatting.",
+  providerLimitHit: false,
+  isRetryable: true,
+};
 
+export default function InventoryManagement() {
   return (
     <div>
       <h1>Inventory Management</h1>
-      <ul>
-        {items.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-      </ul>
+      <pre>{JSON.stringify(errorData, null, 2)}</pre>
     </div>
   );
-};
-
-export default InventoryManagement;
+}
