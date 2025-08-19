@@ -12,7 +12,6 @@ import VendorManagement from './components/VendorManagement';
 import InventoryManagement from './components/InventoryManagement';
 import Analytics from './components/Analytics';
 import Reports from './components/Reports';
-import InventoryManagement from "./components/InventoryManagement";
 
 function App() {
   return (
@@ -23,6 +22,7 @@ function App() {
 }
 
 export default App;
+
 
 const AppContent: React.FC = () => {
   const { state: authState } = useAuth();
