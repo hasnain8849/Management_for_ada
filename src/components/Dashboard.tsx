@@ -112,7 +112,7 @@ const Dashboard: React.FC = () => {
       <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg p-6 text-white">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">Welcome to Hijab Umar</h1>
+            <h1 className="text-2xl font-bold">Welcome to Hijab Omer</h1>
             <p className="text-blue-100 mt-1">Attendance & Wage Management System</p>
           </div>
           <Calendar size={48} className="text-blue-200" />

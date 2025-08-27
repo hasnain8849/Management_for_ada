@@ -78,7 +78,7 @@ const LoginPage: React.FC = () => {
           <div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
             <Lock className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Hijab Umar</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Hijab Omer</h1>
           <p className="text-gray-600">Attendance & Wage Management System</p>
         </div>
 
