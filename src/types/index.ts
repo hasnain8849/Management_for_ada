@@ -115,7 +115,7 @@ export interface StockItem {
   size: 'S' | 'M' | 'L' | 'XL' | 'XXL';
   quantity: number;
   inHouseStock: number;
-  inSourceStock: number;
+  outSourceStock: number;
   costPrice: number;
   sellingPrice: number;
   barcode?: string;
@@ -130,7 +130,9 @@ export interface StockItem {
   receivedBy: string;
   supplierName?: string;
   remarks?: string;
-  outSourceStock: number;
+  isActive?: boolean;
+  lastUpdated?: string;
+  updatedBy?: string;
 }
 
 export interface StockTransfer {

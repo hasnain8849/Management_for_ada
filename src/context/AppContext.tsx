@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
-import { Employee, AttendanceRecord, WageRecord, DashboardStats, Location, Vendor, StockItem, StockTransfer, StockReceiving, StockReturn, PayrollRecord } from '../types';
+import { Employee, AttendanceRecord, WageRecord, DashboardStats, Location, Vendor, StockItem, StockTransfer, StockReceiving, StockReturn, PayrollRecord, Collection, StockMovement } from '../types';
 import { convertUSDToPKR } from '../utils/currency';
 
 interface AppState {
