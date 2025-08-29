@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { Location } from '../types';
-import { MapPin, Plus, Edit, Trash2, Building, Phone, User, CheckCircle, XCircle } from 'lucide-react';
+import { MapPin, Plus, Edit,  Building, Phone, User, CheckCircle, XCircle } from 'lucide-react';
 
 const LocationManagement: React.FC = () => {
   const { state, dispatch } = useAppContext();
@@ -119,6 +119,8 @@ const LocationManagement: React.FC = () => {
                 )}
                 <div className="flex space-x-1">
                   <button
+                  title='Edit Location'
+                  
                     onClick={() => handleEdit(location)}
                     className="p-1 text-gray-400 hover:text-blue-600 transition-colors"
                   >
@@ -241,13 +243,15 @@ const LocationManagement: React.FC = () => {
                     Type
                   </label>
                   <select
+                  title='Add shop '
                     value={formData.type}
                     onChange={(e) => setFormData({...formData, type: e.target.value as any})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value="warehouse">Warehouse</option>
-                    <option value="shop">Shop</option>
-                    <option value="mall">Mall</option>
+                    <option value="shop">Gulberq Shop</option>
+                    <option value="mall">Lahore Mall</option>
+                    <option value="karachishop">Karachi Mall</option>
                     <option value="online">Online</option>
                   </select>
                 </div>

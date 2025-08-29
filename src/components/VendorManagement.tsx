@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { Vendor } from '../types';
-import { Truck, Plus, Edit, Trash2, Mail, Phone, Building, Star, TrendingUp, AlertCircle } from 'lucide-react';
+import { Truck, Plus, Edit,  Mail, Phone, Building, Star, TrendingUp,  } from 'lucide-react';
 
 const VendorManagement: React.FC = () => {
   const { state, dispatch, getVendorPerformance } = useAppContext();
@@ -13,7 +13,7 @@ const VendorManagement: React.FC = () => {
     email: '',
     phone: '',
     address: '',
-    status: 'active' as 'active' | 'inactive'
+    status: 'active' as 'active' | 'inactive',
     // Enhanced vendor fields
     vendorName: '',
     cnicId: '',
@@ -29,7 +29,7 @@ const VendorManagement: React.FC = () => {
       email: '',
       phone: '',
       address: '',
-      status: 'active'
+      status: 'active',
       vendorName: '',
       cnicId: '',
       contactNumber: '',
@@ -55,7 +55,7 @@ const VendorManagement: React.FC = () => {
       totalDeliveries: editingVendor?.totalDeliveries || 0,
       onTimeDeliveries: editingVendor?.onTimeDeliveries || 0,
       totalReturns: editingVendor?.totalReturns || 0,
-      joinDate: editingVendor?.joinDate || new Date().toISOString().split('T')[0]
+      joinDate: editingVendor?.joinDate || new Date().toISOString().split('T')[0],
       // Enhanced vendor fields
       vendorName: formData.vendorName || formData.name,
       cnicId: formData.cnicId,
@@ -75,17 +75,23 @@ const VendorManagement: React.FC = () => {
   };
 
   const handleEdit = (vendor: Vendor) => {
-    setEditingVendor(vendor);
-    setFormData({
-      name: vendor.name,
-      company: vendor.company,
-      email: vendor.email,
-      phone: vendor.phone,
-      address: vendor.address,
-      status: vendor.status
-    });
-    setShowAddForm(true);
-  };
+  setEditingVendor(vendor);
+  setFormData({
+    name: vendor.name,
+    company: vendor.company,
+    email: vendor.email,
+    phone: vendor.phone,
+    address: vendor.address,
+    status: vendor.status,
+    vendorName: vendor.vendorName || vendor.name,
+    cnicId: vendor.cnicId || '',
+    contactNumber: vendor.contactNumber || vendor.phone,
+    fullAddress: vendor.fullAddress || vendor.address,
+    bankAccountNumber: vendor.bankAccountNumber || ''
+  });
+  setShowAddForm(true);
+};
+
 
   const getStatusColor = (status: string) => {
     return status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
@@ -180,6 +186,7 @@ const VendorManagement: React.FC = () => {
                 <div className="flex space-x-2">
                   <button
                     onClick={() => handleEdit(vendor)}
+                    title='Edit Vendor'
                     className="p-1 text-gray-400 hover:text-blue-600 transition-colors"
                   >
                     <Edit size={16} />
@@ -261,6 +268,8 @@ const VendorManagement: React.FC = () => {
                   </label>
                   <input
                     type="text"
+                    title='Vendor Name'
+                    placeholder='Vendor Name'
                     required
                     value={formData.vendorName}
                     onChange={(e) => setFormData({...formData, vendorName: e.target.value, name: e.target.value})}
@@ -288,6 +297,8 @@ const VendorManagement: React.FC = () => {
                   </label>
                   <input
                     type="tel"
+                    placeholder='Contact Number'
+                    pattern='[0-9]{4}-[0-9]{7}'
                     required
                     value={formData.contactNumber}
                     onChange={(e) => setFormData({...formData, contactNumber: e.target.value, phone: e.target.value})}
@@ -327,6 +338,7 @@ const VendorManagement: React.FC = () => {
                     Status
                   </label>
                   <select
+                    title='Status'
                     value={formData.status}
                     onChange={(e) => setFormData({...formData, status: e.target.value as 'active' | 'inactive'})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"

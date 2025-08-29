@@ -9,7 +9,7 @@ import AttendanceManagement from './components/AttendanceManagement';
 import WageManagement from './components/WageManagement';
 import LocationManagement from './components/LocationManagement';
 import VendorManagement from './components/VendorManagement';
-import InventoryManagement from './components/InventoryManagement';
+// import InventoryManagement from './components/InventoryManagement';
 import Analytics from './components/Analytics';
 import Reports from './components/Reports';
 
@@ -49,8 +49,8 @@ const AppContent: React.FC = () => {
         return <LocationManagement />;
       case 'vendors':
         return <VendorManagement />;
-      case 'inventory':
-        return <InventoryManagement />;
+      // case 'inventory':
+      //   return <InventoryManagement />;
       case 'analytics':
         return <Analytics />;
       case 'reports':
