@@ -13,15 +13,15 @@
     "deploy": "npm run build && npm run preview"
   },
   "dependencies": {
-    "lucide-react": "^0.344.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "express": "^4.18.2",
-    "mongoose": "^7.5.0",
     "cors": "^2.8.5",
-    "helmet": "^7.0.0",
-    "express-rate-limit": "^6.10.0",
-    "dotenv": "^16.3.1"
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.0.1",
+    "helmet": "^8.1.0",
+    "lucide-react": "^0.344.0",
+    "mongoose": "^8.18.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
