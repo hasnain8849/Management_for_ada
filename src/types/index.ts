@@ -205,6 +205,19 @@ export interface Collection {
   createdDate: string;
 }
 
+export interface StockMovement {
+  id: string;
+  type: 'received' | 'transferred' | 'returned';
+  itemId: string;
+  fromLocationId?: string;
+  toLocationId: string;
+  quantity: number;
+  date: string;
+  employeeId: string;
+  notes?: string;
+  status: 'pending' | 'completed' | 'cancelled';
+}
+
 export interface AttendanceRecord {
   id: string;
   employeeId: string;
@@ -217,17 +230,4 @@ export interface AttendanceRecord {
   status: 'present' | 'absent' | 'late';
   hoursWorked: number;
   notes?: string;
-}
-
-export interface StockMovement {
-  id: string;
-  type: 'received' | 'transferred' | 'returned';
-  itemId: string;
-  fromLocationId?: string;
-  toLocationId: string;
-  quantity: number;
-  date: string;
-  employeeId: string;
-  notes?: string;
-  status: 'pending' | 'completed' | 'cancelled';
 }
