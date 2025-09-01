@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
-import { Employee, AttendanceRecord, WageRecord, DashboardStats, Location, Vendor, StockItem, StockTransfer, StockReceiving, StockReturn, PayrollRecord } from '../types';
+import { Employee, AttendanceRecord, WageRecord, DashboardStats, Location, Vendor, StockItem, StockTransfer, StockReceiving, StockReturn, PayrollRecord, WarehouseMaterial, ShopArticle, SalesRecord, ShopLocation } from '../types';
 import { convertUSDToPKR } from '../utils/currency';
 
 interface AppState {
@@ -19,6 +19,11 @@ interface AppState {
   collections: Collection[];
   stockMovements: StockMovement[];
   attendanceRecords: AttendanceRecord[];
+  // New state for multi-location system
+  warehouseMaterials: WarehouseMaterial[];
+  shopArticles: ShopArticle[];
+  salesRecords: SalesRecord[];
+  shopLocations: ShopLocation[];
 }
 
 type AppAction = 
@@ -52,7 +57,17 @@ type AppAction =
   | { type: 'SET_STOCK_MOVEMENTS'; payload: StockMovement[] }
   | { type: 'ADD_STOCK_MOVEMENT'; payload: StockMovement }
   | { type: 'SET_ATTENDANCE_RECORDS'; payload: AttendanceRecord[] }
-  | { type: 'ADD_ATTENDANCE_RECORD'; payload: AttendanceRecord };
+  | { type: 'ADD_ATTENDANCE_RECORD'; payload: AttendanceRecord }
+  // New actions for multi-location system
+  | { type: 'SET_WAREHOUSE_MATERIALS'; payload: WarehouseMaterial[] }
+  | { type: 'ADD_WAREHOUSE_MATERIAL'; payload: WarehouseMaterial }
+  | { type: 'UPDATE_WAREHOUSE_MATERIAL'; payload: WarehouseMaterial }
+  | { type: 'SET_SHOP_ARTICLES'; payload: ShopArticle[] }
+  | { type: 'ADD_SHOP_ARTICLE'; payload: ShopArticle }
+  | { type: 'UPDATE_SHOP_ARTICLE'; payload: ShopArticle }
+  | { type: 'SET_SALES_RECORDS'; payload: SalesRecord[] }
+  | { type: 'ADD_SALES_RECORD'; payload: SalesRecord }
+  | { type: 'SET_SHOP_LOCATIONS'; payload: ShopLocation[] };
 
 const initialState: AppState = {
   employees: [],
@@ -67,7 +82,11 @@ const initialState: AppState = {
   stockReturns: [],
   payrollRecords: [],
   collections: [],
-  stockMovements: []
+  stockMovements: [],
+  warehouseMaterials: [],
+  shopArticles: [],
+  salesRecords: [],
+  shopLocations: []
 };
 
 function appReducer(state: AppState, action: AppAction): AppState {
@@ -160,6 +179,35 @@ function appReducer(state: AppState, action: AppAction): AppState {
       return { ...state, attendanceRecords: action.payload };
     case 'ADD_ATTENDANCE_RECORD':
       return { ...state, attendanceRecords: [...state.attendanceRecords, action.payload] };
+    // New cases for multi-location system
+    case 'SET_WAREHOUSE_MATERIALS':
+      return { ...state, warehouseMaterials: action.payload };
+    case 'ADD_WAREHOUSE_MATERIAL':
+      return { ...state, warehouseMaterials: [...state.warehouseMaterials, action.payload] };
+    case 'UPDATE_WAREHOUSE_MATERIAL':
+      return {
+        ...state,
+        warehouseMaterials: state.warehouseMaterials.map(material => 
+          material.id === action.payload.id ? action.payload : material
+        )
+      };
+    case 'SET_SHOP_ARTICLES':
+      return { ...state, shopArticles: action.payload };
+    case 'ADD_SHOP_ARTICLE':
+      return { ...state, shopArticles: [...state.shopArticles, action.payload] };
+    case 'UPDATE_SHOP_ARTICLE':
+      return {
+        ...state,
+        shopArticles: state.shopArticles.map(article => 
+          article.id === action.payload.id ? action.payload : article
+        )
+      };
+    case 'SET_SALES_RECORDS':
+      return { ...state, salesRecords: action.payload };
+    case 'ADD_SALES_RECORD':
+      return { ...state, salesRecords: [...state.salesRecords, action.payload] };
+    case 'SET_SHOP_LOCATIONS':
+      return { ...state, shopLocations: action.payload };
     default:
       return state;
   }
@@ -174,6 +222,11 @@ interface AppContextType {
   getLocationStock: (locationId: string) => StockItem[];
   getVendorPerformance: (vendorId: string) => { onTimeRate: number; returnRate: number };
   calculateProfit: (startDate: string, endDate: string) => number;
+  // New helper functions for multi-location system
+  getShopArticles: (shopCode: string) => ShopArticle[];
+  getShopSales: (shopCode: string, startDate?: string, endDate?: string) => SalesRecord[];
+  getWarehouseMaterialsByCategory: (category: string) => WarehouseMaterial[];
+  calculateShopRevenue: (shopCode: string, startDate?: string, endDate?: string) => number;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -244,6 +297,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
     if (savedStockItems) {
       dispatch({ type: 'SET_STOCK_ITEMS', payload: JSON.parse(savedStockItems) });
     }
+
+    // Initialize shop locations
+    const defaultShopLocations: ShopLocation[] = [
+      { code: '001', name: 'Warehouse (Raw Materials)', type: 'warehouse', isActive: true },
+      { code: '002', name: 'Shop 1 (FP2 Lahore)', type: 'shop', address: 'FP2 Lahore', manager: 'Manager 1', isActive: true },
+      { code: '003', name: 'Shop 2 (FP2 Karachi)', type: 'shop', address: 'FP2 Karachi', manager: 'Manager 2', isActive: true },
+      { code: '004', name: 'Online Shop', type: 'online', manager: 'Online Manager', isActive: true }
+    ];
+    dispatch({ type: 'SET_SHOP_LOCATIONS', payload: defaultShopLocations });
   }, []);
 
   // Save data to localStorage whenever state changes
@@ -271,6 +333,20 @@ export function AppProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     localStorage.setItem('hijab-umar-stock-items', JSON.stringify(state.stockItems));
   }, [state.stockItems]);
+
+  // Save new multi-location data
+  useEffect(() => {
+    localStorage.setItem('hijab-umar-warehouse-materials', JSON.stringify(state.warehouseMaterials));
+  }, [state.warehouseMaterials]);
+
+  useEffect(() => {
+    localStorage.setItem('hijab-umar-shop-articles', JSON.stringify(state.shopArticles));
+  }, [state.shopArticles]);
+
+  useEffect(() => {
+    localStorage.setItem('hijab-umar-sales-records', JSON.stringify(state.salesRecords));
+  }, [state.salesRecords]);
+
   const getDashboardStats = (): DashboardStats => {
     const totalEmployees = state.employees.filter(emp => emp.type === 'employee').length;
     const totalLaborers = state.employees.filter(emp => emp.type === 'laborer').length;
@@ -295,8 +371,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
     // Enhanced stats
     const totalStockValue = state.stockItems.reduce((total, item) => total + (item.costPrice * item.quantity), 0);
+    const warehouseValue = state.warehouseMaterials.reduce((total, material) => total + (material.pricePerUnit * material.quantityAvailable), 0);
+    const shopStockValue = state.shopArticles.reduce((total, article) => total + (article.salePrice * article.quantityAvailable), 0);
     const lowStockItems = state.stockItems.filter(item => item.quantity < 10).length;
+    const lowStockMaterials = state.warehouseMaterials.filter(material => material.quantityAvailable < 10).length;
+    const lowStockArticles = state.shopArticles.filter(article => article.quantityAvailable < 5).length;
     const monthlyProfit = calculateProfit(currentMonth + '-01', new Date().toISOString().split('T')[0]);
+    
     return {
       totalEmployees,
       totalLaborers,
@@ -306,9 +387,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       attendanceRate,
       totalLocations: state.locations.filter(loc => loc.isActive).length,
       totalVendors: state.vendors.filter(vendor => vendor.status === 'active').length,
-      totalStockValue,
+      totalStockValue: totalStockValue + warehouseValue + shopStockValue,
       monthlyProfit,
-      lowStockItems
+      lowStockItems: lowStockItems + lowStockMaterials + lowStockArticles
     };
   };
 
@@ -342,11 +423,42 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const calculateProfit = (startDate: string, endDate: string): number => {
     // This would calculate profit based on sales data
-    // For now, return a placeholder calculation
-    const totalCost = state.stockItems.reduce((total, item) => total + (item.costPrice * item.quantity), 0);
-    const totalSelling = state.stockItems.reduce((total, item) => total + (item.sellingPrice * item.quantity), 0);
-    return totalSelling - totalCost;
+    const salesInPeriod = state.salesRecords.filter(sale => 
+      sale.dateOfSale >= startDate && sale.dateOfSale <= endDate
+    );
+    
+    const totalRevenue = salesInPeriod.reduce((total, sale) => total + sale.finalAmount, 0);
+    const totalCost = salesInPeriod.reduce((total, sale) => {
+      const article = state.shopArticles.find(a => a.articleCode === sale.articleCode);
+      return total + ((article?.costPrice || 0) * sale.quantitySold);
+    }, 0);
+    
+    return totalRevenue - totalCost;
   };
+
+  // New helper functions for multi-location system
+  const getShopArticles = (shopCode: string): ShopArticle[] => {
+    return state.shopArticles.filter(article => article.shopCode === shopCode);
+  };
+
+  const getShopSales = (shopCode: string, startDate?: string, endDate?: string): SalesRecord[] => {
+    return state.salesRecords.filter(sale => {
+      const matchesShop = sale.shopCode === shopCode;
+      const matchesDate = !startDate || !endDate || 
+        (sale.dateOfSale >= startDate && sale.dateOfSale <= endDate);
+      return matchesShop && matchesDate;
+    });
+  };
+
+  const getWarehouseMaterialsByCategory = (category: string): WarehouseMaterial[] => {
+    return state.warehouseMaterials.filter(material => material.category === category);
+  };
+
+  const calculateShopRevenue = (shopCode: string, startDate?: string, endDate?: string): number => {
+    const shopSales = getShopSales(shopCode, startDate, endDate);
+    return shopSales.reduce((total, sale) => total + sale.finalAmount, 0);
+  };
+
   return (
     <AppContext.Provider value={{ 
       state, 
@@ -355,7 +467,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
       calculateWages,
       getLocationStock,
       getVendorPerformance,
-      calculateProfit
+      calculateProfit,
+      getShopArticles,
+      getShopSales,
+      getWarehouseMaterialsByCategory,
+      calculateShopRevenue
     }}>
       {children}
     </AppContext.Provider>

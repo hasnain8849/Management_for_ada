@@ -218,6 +218,83 @@ export interface StockMovement {
   status: 'pending' | 'completed' | 'cancelled';
 }
 
+// New types for advanced multi-location system
+export interface WarehouseMaterial {
+  id: string;
+  materialCode: string;
+  materialName: string;
+  category: 'Hand Work' | 'Accessories' | 'Fabric';
+  quantityAvailable: number;
+  pricePerUnit: number;
+  remarks: string;
+  addedDate: string;
+  addedBy: string;
+  lastUpdated: string;
+  updatedBy?: string;
+  isActive: boolean;
+  totalValue: number;
+}
+
+export interface ShopArticle {
+  id: string;
+  articleCode: string;
+  articleName: string;
+  collectionName: 'Sajna Lawn' | 'Parwaz' | 'Noor Jehan' | 'Raabta' | 'Custom';
+  category: 'Sample' | 'Ready To Wear (RTW)';
+  size: 'S' | 'M' | 'L' | 'XL' | 'XXL';
+  color: string;
+  salePrice: number;
+  quantityAvailable: number;
+  quantitySold: number;
+  dateAdded: string;
+  shopCode: '002' | '003' | '004'; // Shop 1, Shop 2, Online
+  addedBy: string;
+  lastUpdated: string;
+  updatedBy?: string;
+  isActive: boolean;
+  costPrice?: number;
+  description?: string;
+  images?: string[];
+  tags?: string[];
+  totalQuantity: number;
+  totalRevenue: number;
+  profitMargin: number;
+}
+
+export interface SalesRecord {
+  id: string;
+  saleID: string;
+  articleCode: string;
+  articleName: string;
+  collectionName: string;
+  category: string;
+  size: string;
+  color: string;
+  salePrice: number;
+  quantitySold: number;
+  dateOfSale: string;
+  soldBy: string;
+  shopCode: string;
+  customerName?: string;
+  customerPhone?: string;
+  paymentMethod: 'Cash' | 'Card' | 'Online' | 'Bank Transfer';
+  discount: number;
+  finalAmount: number;
+  notes?: string;
+  status: 'completed' | 'pending' | 'cancelled' | 'returned';
+  totalSaleValue: number;
+}
+
+export interface ShopLocation {
+  code: string;
+  name: string;
+  type: 'warehouse' | 'shop' | 'online';
+  address?: string;
+  manager?: string;
+  phone?: string;
+  isActive: boolean;
+}
+
 export interface AttendanceRecord {
   id: string;
   employeeId: string;

@@ -11,6 +11,8 @@ import {
   Truck,
   Package,
   BarChart3,
+  Store,
+  Warehouse,
   Menu,
   X,
   LogOut,
@@ -28,13 +30,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const navigation = [
     { id: 'dashboard', name: 'Dashboard', icon: LayoutDashboard },
+    { id: 'multi-location', name: 'Multi-Location', icon: Store },
+    { id: 'sales-reports', name: 'Sales Reports', icon: BarChart3 },
     { id: 'employees', name: 'Employees', icon: Users },
     { id: 'attendance', name: 'Attendance', icon: Clock },
     { id: 'wages', name: 'Wages', icon: DollarSign },
     { id: 'locations', name: 'Locations', icon: MapPin },
     { id: 'vendors', name: 'Vendors', icon: Truck },
     { id: 'inventory', name: 'Inventory', icon: Package },
-    { id: 'analytics', name: 'Analytics', icon: BarChart3 },
+    { id: 'analytics', name: 'Analytics', icon: TrendingUp },
     { id: 'reports', name: 'Reports', icon: FileText },
   ];
 

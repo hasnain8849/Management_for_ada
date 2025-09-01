@@ -7,6 +7,9 @@ require('dotenv').config();
 
 // Import routes
 const inventoryRoutes = require('./routes/inventory');
+const warehouseRoutes = require('./routes/warehouse');
+const shopArticlesRoutes = require('./routes/shopArticles');
+const salesRoutes = require('./routes/sales');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -53,6 +56,9 @@ app.get('/health', (req, res) => {
 
 // API Routes
 app.use('/api/inventory', inventoryRoutes);
+app.use('/api/warehouse', warehouseRoutes);
+app.use('/api/shop-articles', shopArticlesRoutes);
+app.use('/api/sales', salesRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

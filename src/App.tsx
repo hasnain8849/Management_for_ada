@@ -12,6 +12,8 @@ import VendorManagement from './components/VendorManagement';
 import InventoryManagement from './components/InventoryManagement';
 import Analytics from './components/Analytics';
 import Reports from './components/Reports';
+import MultiLocationDashboard from './components/MultiLocationDashboard';
+import SalesReports from './components/SalesReports';
 
 const AppContent = () => { 
   const { state: authState } = useAuth(); 
@@ -38,6 +40,8 @@ const AppContent = () => {
   const renderCurrentView = () => { 
     switch (state.currentView) {
       case 'dashboard': return <Dashboard />;
+     case 'multi-location': return <MultiLocationDashboard />;
+     case 'sales-reports': return <SalesReports />;
       case 'employees': return <EmployeeManagement />;
       case 'attendance': return <AttendanceManagement />; 
       case 'wages': return <WageManagement />;
