@@ -16,8 +16,10 @@ import {
   Menu,
   X,
   LogOut,
-  User
+  User,
+  TrendingUp   // 👈 ye line add karni hai
 } from 'lucide-react';
+
 
 interface LayoutProps {
   children: React.ReactNode;
