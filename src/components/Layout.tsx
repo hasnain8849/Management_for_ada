@@ -17,7 +17,7 @@ import {
   X,
   LogOut,
   User,
-  TrendingUp   // 👈 ye line add karni hai
+  TrendingUp   
 } from 'lucide-react';
 
 
