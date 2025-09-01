@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import ShopDashboard from './ShopDashboard';
-import WarehouseDashboard from './WarehouseDashboard';
+//import WarehouseDashboard from './WarehouseDashboard';
 import { Store, Warehouse, MapPin, TrendingUp, Package, DollarSign } from 'lucide-react';
 import { formatPKR } from '../utils/currency';
 
